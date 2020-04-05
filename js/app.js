@@ -7,6 +7,10 @@ let ballSize = 20;
 let animationID;
 const population = 100;
 let globetrotters = 50;
+const menu = document.querySelector(".menu");
+const difficult = document.querySelector('input[type="range"]');
+const diffInfo = document.querySelector(".menu--info");
+const start = document.querySelector(".btn--start");
 
 class Ball {
   constructor(x, y, size, color, speedX, speedY) {
@@ -27,14 +31,127 @@ class Ball {
   }
 
   moveBall(allObj) {
-    console.log("move");
+    const bL = this.x;
+    const bR = this.x + this.size;
+    const bB = this.y + this.size;
+    const bT = this.y;
+    let collisionType = 0;
+
+    for (let i in allObj) {
+      let oR = allObj[i].x + allObj[i].size;
+      let oL = allObj[i].x;
+      let oT = allObj[i].y;
+      let oB = allObj[i].y + allObj[i].size;
+      if (this === allObj[i]) continue;
+      else if (
+        ((oL <= bR && bR <= oR) || (oL <= bL && bL <= oR)) &&
+        ((oT <= bT && bT <= oB) || (oT <= bB && bB <= oB))
+      ) {
+        this.speedX = -this.speedX;
+        break;
+      }
+      if (this.speedX > 0 && bR + this.speedX > cw) {
+        collisionType = 2;
+        break;
+      } else if (this.speedX < 0 && bL - this.speedX < this.size) {
+        collisionType = 2;
+        break;
+      }
+      if (this.speedY > 0 && bB + this.speedY > ch) {
+        collisionType = 3;
+        break;
+      } else if (this.speedY < 0 && bT - this.speedY < this.size) {
+        collisionType = 3;
+        break;
+      }
+
+      if (this.speedX > 0 && this.speedY > 0) {
+        if (
+          bL < oR &&
+          ((oL <= bR + this.speedX && bR + this.speedX <= oR) ||
+            (oL <= bL + this.speedX && bL + this.speedX <= oR)) &&
+          bT < oB &&
+          ((oT <= bT - this.speedY && bT - this.speedY <= oB) ||
+            (oT <= bB + this.speedY && bB + this.speedY <= oB))
+        ) {
+          collisionType = 1;
+          if (allObj[i].color == "red") {
+            this.color = "red";
+          } else if (this.color == "red") {
+            allObj[i].color = "red";
+          }
+          break;
+        }
+      } else if (this.speedX > 0 && this.speedY < 0) {
+        if (
+          bL < oR &&
+          ((oL <= bR + this.speedX && bR + this.speedX <= oR) ||
+            (oL <= bL + this.speedX && bL + this.speedX <= oR)) &&
+          bB > oT &&
+          ((oT <= bT - this.speedY && bT - this.speedY <= oB) ||
+            (oT <= bB - this.speedY && bB - this.speedY <= oB))
+        ) {
+          collisionType = 1;
+          break;
+        }
+      } else if (this.speedX < 0 && this.speedY > 0) {
+        if (
+          bR > oL &&
+          ((oL <= bR - this.speedX && bR - this.speedX <= oR) ||
+            (oL <= bL - this.speedX && bL - this.speedX <= oR)) &&
+          bT < oB &&
+          ((oT <= bT - this.speedY && bT - this.speedY <= oB) ||
+            (oT <= bB + this.speedY && bB + this.speedY <= oB))
+        ) {
+          collisionType = 1;
+          break;
+        }
+      } else {
+        if (
+          bR > oL &&
+          ((oL <= bR - this.speedX && bR - this.speedX <= oR) ||
+            (oL <= bL - this.speedX && bL - this.speedX <= oR)) &&
+          bB > oT &&
+          ((oT <= bT - this.speedY && bT - this.speedY <= oB) ||
+            (oT <= bB - this.speedY && bB - this.speedY <= oB))
+        ) {
+          collisionType = 1;
+          break;
+        }
+      }
+    }
+    if (collisionType) {
+      if (collisionType == 1) {
+        this.speedX = -this.speedX;
+        if (Math.round(Math.random())) this.speedY = -this.speedY;
+      } else if (collisionType == 2) {
+        this.speedX = -this.speedX;
+      } else if (collisionType == 3) {
+        this.speedY = -this.speedY;
+      }
+    } else {
+      this.x += this.speedX;
+      this.y += this.speedY;
+    }
   }
+  // changeColor(color) {
+  //   this.color = color;
+  // }
 }
 
 const intRandom = (min, max) =>
   Math.floor(Math.random() * (max - min + 1) + min);
 
-const clearCanvas = (canvas, context) => context.clearRect(0, 0, cw, ch);
+const updateGameArea = (allObj) => {
+  cw = canvas.width = innerWidth > 900 ? 900 : innerWidth * 0.95;
+  ch = canvas.height = innerHeight > 450 ? 450 : innerHeight * 0.7;
+  menu.style.width = `${cw}px`;
+  ballSize = innerWidth > 900 ? 20 : 10;
+  allObj.map((e) => {
+    e.size = innerWidth > 900 ? 20 : 10;
+    console.log(e);
+  });
+};
 
 const addObj = (num) => {
   for (let i = 0; i < num; i++) {
@@ -50,16 +167,18 @@ const addObj = (num) => {
   }
   allObj[0].color = "red";
 };
-addObj(5);
+
 const delAllObj = (arr) => arr.splice(0, arr.length);
 
 const drawAllObj = (allObj, context) => {
   allObj.forEach((e) => {
     context.fillStyle = e.color;
     e.drawBall(context);
-    e.move(allObj);
+    e.moveBall(allObj);
   });
 };
+
+const clearCanvas = (canvas, context) => context.clearRect(0, 0, cw, ch);
 
 const animationLoop = () => {
   animationID = requestAnimationFrame(animationLoop);
