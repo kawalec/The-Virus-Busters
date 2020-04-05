@@ -1,3 +1,8 @@
+:root {
+  --primary-color: #fff;
+  --secondary-color: #0088cc;
+}
+
 .wrapper {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
@@ -59,4 +64,42 @@
   cursor: pointer;
   background-image: linear-gradient(top, #fff, #f4f1ee);
   color: #0088cc;
+}
+
+.about {
+  width: 350px;
+  height: 200px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--secondary-color);
+  position: absolute;
+  /* top: 0px;
+  left: 0px; */
+}
+
+.about i {
+  position: absolute;
+  font-size: 2em;
+  top: 5px;
+  right: 10px;
+}
+
+.about i:hover {
+  cursor: pointer;
+}
+
+.about__title {
+  font-size: 1.8em;
+  font-weight: 700;
+  margin: 20px 0 20px 20px;
+}
+
+.about__links {
+  margin: 0 0 10px 10px;
+}
+
+.about__links p {
+  margin: 10px 0;
+  padding: 0;
 }

@@ -7,9 +7,11 @@ let ballSize = 20;
 let animationID;
 const population = 100;
 let globetrotters = 50;
+const wrapper = document.querySelector(".wrapper");
 const menu = document.querySelector(".menu");
 const difficult = document.querySelector('input[type="range"]');
 const diffInfo = document.querySelector(".diff-info");
+const about = document.querySelector(".btn--about");
 const help = document.querySelector(".btn--help");
 const music = document.querySelector(".btn--music");
 const start = document.querySelector(".btn--start");
@@ -245,6 +247,32 @@ const togglePlay = () => {
 
 music.addEventListener("click", togglePlay, false);
 
-/* <a href="http://www.freepik.com">Background by Freepik</a> */
-/* <a href="https://www.bensound.com">Music by Bensound</a> */
-/* <a href="https://fontawesome.com">Icons by Font Awesome</a> */
+const removeAbout = () => {
+  aboutWindow.remove();
+};
+
+const aboutWindow = document.createElement("div");
+aboutWindow.classList.add("about");
+aboutWindow.style.left = `${innerWidth / 2 - 350}px`;
+aboutWindow.style.top = `${innerHeight / 2 - 200}px`;
+aboutWindow.innerHTML = `
+<i class="fas fa-times" onclick="removeAbout()"></i>
+<p class="about__title">The Virus Busters</p>
+<div class="about__links">
+<p>Created by
+<a href="https://www.kawalec.eu" target="_blank">Paweł Kawalec</a>
+</p>
+<p> Background by 
+<a href="https://www.freepik.com" target="_blank">Freepik</a>
+</p>
+<p> Music by 
+<a href="https://www.bensound.com" target="_blank">Bensound</a>
+</p>
+<p> Icons by 
+<a href="https://fontawesome.com" target="_blank">Font Awesome</a>
+</p>
+</div>
+`;
+about.addEventListener("click", () => {
+  wrapper.appendChild(aboutWindow);
+});
