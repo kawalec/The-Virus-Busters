@@ -9,7 +9,7 @@ const population = 100;
 let globetrotters = 50;
 const menu = document.querySelector(".menu");
 const difficult = document.querySelector('input[type="range"]');
-const diffInfo = document.querySelector(".menu--info");
+const diffInfo = document.querySelector(".diff-info");
 const help = document.querySelector(".btn--help");
 const music = document.querySelector(".btn--music");
 const start = document.querySelector(".btn--start");
@@ -147,7 +147,7 @@ const intRandom = (min, max) =>
 const updateGameArea = (allObj) => {
   cw = canvas.width = innerWidth > 900 ? 900 : innerWidth * 0.95;
   ch = canvas.height = innerHeight > 450 ? 450 : innerHeight * 0.7;
-  menu.style.width = `${cw}px`;
+  menu.style.width = `${cw - 65}px`;
   ballSize = innerWidth > 900 ? 20 : 10;
   allObj.map((e) => {
     e.size = innerWidth > 900 ? 20 : 10;
@@ -191,8 +191,6 @@ canvas.addEventListener("click", (event) => {
   const radius = 40;
   const mouseX = event.clientX - canvas.offsetLeft;
   const mouseY = event.clientY - canvas.offsetTop;
-  console.log(mouseX, mouseY);
-
   allObj.forEach((e) => {
     let distanse = Math.sqrt(
       Math.pow(mouseX - e.x, 2) + Math.pow(mouseY - e.y, 2)
@@ -235,11 +233,18 @@ const playAudio = () => audio.play();
 const pauseAudio = () => audio.pause();
 
 const togglePlay = () => {
+  console.log("foo");
   if (audio.paused) {
+    music.innerHTML = '<i class="fas fa-volume-mute"></i>';
     audio.play();
   } else {
+    music.innerHTML = '<i class="fas fa-volume-up"></i>';
     audio.pause();
   }
 };
 
 music.addEventListener("click", togglePlay, false);
+
+/* <a href="http://www.freepik.com">Background by Freepik</a> */
+/* <a href="https://www.bensound.com">Music by Bensound</a> */
+/* <a href="https://fontawesome.com">Icons by Font Awesome</a> */

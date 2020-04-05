@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <script
+      src="https://kit.fontawesome.com/4531018be7.js"
+      crossorigin="anonymous"
+    ></script>
     <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" href="/styles/styles.css" />
     <title>The Virus Busters</title>
@@ -12,16 +16,17 @@
   <body>
     <div class="wrapper">
       <canvas class="myCanvas"></canvas>
-      <form class="menu">
-        <label class="menu--diff">
+      <div class="menu">
+        <button class="btn btn--about"><i class="fas fa-virus"></i></button>
+        <label class="diff-input">
           Quarantine
           <input type="range" min="5" max="95" value="50" />
         </label>
-        <div class="menu--info">50% of peopple in quarantine!</div>
-        <input class="btn btn--help" type="button" value="Help" />
-        <input class="btn btn--music" type="button" value="Music" />
-        <input class="btn btn--start" type="button" value="Start" />
-      </form>
+        <div class="diff-info">50% of peopple in quarantine!</div>
+        <button class="btn btn--help"><i class="fas fa-question"></i></button>
+        <button class="btn btn--music"><i class="fas fa-volume-up"></i></button>
+        <button class="btn btn--start"><i class="fas fa-power-off"></i></button>
+      </div>
       <audio style="display: none;" id="myAudio" controls="" loop="">
         <source src="music/bensound-ukulele.mp3" />
       </audio>

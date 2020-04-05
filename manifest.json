@@ -43,6 +43,6 @@
   "theme_color": "#2a6fa5",
   // "display": "browser",
   "display": "fullscreen",
-  // "orientation": "landscape"
-  "orientation": "portrait"
+  // "orientation": "portrait"
+  "orientation": "landscape"
 }
