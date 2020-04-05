@@ -185,3 +185,46 @@ const animationLoop = () => {
   clearCanvas(canvas, ctx);
   drawAllObj(allObj, ctx);
 };
+
+canvas.addEventListener("click", (event) => {
+  const radius = 40;
+  const mouseX = event.clientX - canvas.offsetLeft;
+  const mouseY = event.clientY - canvas.offsetTop;
+  console.log(mouseX, mouseY);
+
+  allObj.forEach((e) => {
+    let distanse = Math.sqrt(
+      Math.pow(mouseX - e.x, 2) + Math.pow(mouseY - e.y, 2)
+    );
+    if (distanse < radius) {
+      e.color = "green";
+    }
+  });
+});
+
+difficult.addEventListener(
+  "change",
+  (e) => {
+    diffInfo.innerHTML = `${difficult.value}% of people in quarantine!`;
+    globetrotters = (population * (100 - difficult.value)) / 100;
+  },
+  false
+);
+
+updateGameArea(allObj);
+
+window.addEventListener(
+  "resize",
+  () => {
+    updateGameArea(allObj);
+  },
+  false
+);
+
+start.addEventListener("click", () => {
+  updateGameArea(allObj);
+  cancelAnimationFrame(animationID);
+  delAllObj(allObj);
+  addObj(globetrotters);
+  animationLoop();
+});
