@@ -151,7 +151,6 @@ const updateGameArea = (allObj) => {
   ballSize = innerWidth > 900 ? 20 : 10;
   allObj.map((e) => {
     e.size = innerWidth > 900 ? 20 : 10;
-    console.log(e);
   });
 };
 
