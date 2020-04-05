@@ -10,6 +10,8 @@ let globetrotters = 50;
 const menu = document.querySelector(".menu");
 const difficult = document.querySelector('input[type="range"]');
 const diffInfo = document.querySelector(".menu--info");
+const help = document.querySelector(".btn--help");
+const music = document.querySelector(".btn--music");
 const start = document.querySelector(".btn--start");
 
 class Ball {
@@ -228,3 +230,17 @@ start.addEventListener("click", () => {
   addObj(globetrotters);
   animationLoop();
 });
+
+const audio = document.querySelector("#myAudio");
+const playAudio = () => audio.play();
+const pauseAudio = () => audio.pause();
+
+const togglePlay = () => {
+  if (audio.paused) {
+    audio.play();
+  } else {
+    audio.pause();
+  }
+};
+
+music.addEventListener("click", togglePlay, false);
