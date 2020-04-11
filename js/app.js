@@ -1,21 +1,31 @@
+// (function () {
+"use strict";
 const canvas = document.querySelector(".myCanvas");
 const ctx = canvas.getContext("2d");
 let cw = (canvas.width = 900);
 let ch = (canvas.height = 450);
-let allObj = [];
+const allObj = [];
+const allChart = [];
 let ballSize = 20;
 let animationID;
 const population = 100;
 let globetrotters = 50;
+let clicks = 0;
+// let apm = 0;
+const colorHealthy = "#123258";
+const colorInfected = "red";
 const wrapper = document.querySelector(".wrapper");
 const menu = document.querySelector(".menu");
 const difficult = document.querySelector('input[type="range"]');
-const diffInfo = document.querySelector(".diff-info");
+const diffInfo = document.querySelector(".diff-info span");
+const panel = document.querySelector(".panel-info");
+const timeInfo = document.querySelector(".panel-info__time");
+const apmInfo = document.querySelector(".panel-info__apm");
+const clickInfo = document.querySelector(".panel-info__click");
 const about = document.querySelector(".btn--about");
 const help = document.querySelector(".btn--help");
 const music = document.querySelector(".btn--music");
 const start = document.querySelector(".btn--start");
-
 class Ball {
   constructor(x, y, size, color, speedX, speedY) {
     this.x = x;
@@ -32,6 +42,7 @@ class Ball {
     context.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
     context.fill();
     context.closePath();
+    // mouth
     context.strokeStyle = "#fefefe";
     context.moveTo(this.x, this.y);
     context.beginPath();
@@ -97,10 +108,10 @@ class Ball {
             (oT <= bB + this.speedY && bB + this.speedY <= oB))
         ) {
           collisionType = 1;
-          if (allObj[i].color == "red") {
-            this.color = "red";
-          } else if (this.color == "red") {
-            allObj[i].color = "red";
+          if (allObj[i].color == colorInfected) {
+            this.color = colorInfected;
+          } else if (this.color == colorInfected) {
+            allObj[i].color = colorInfected;
           }
           break;
         }
@@ -197,7 +208,7 @@ const addObj = (num) => {
       intRandom(0, cw),
       intRandom(0, ch),
       ballSize,
-      "blue",
+      colorHealthy,
       intRandom(1, 2),
       intRandom(1, 2)
     );
@@ -209,7 +220,7 @@ const addObj = (num) => {
 const infected = (arr, n, p) => {
   const c = Math.floor((n * p) / 100) < 1 ? 1 : Math.floor((n * p) / 100);
   for (let i = 0; i < c; i++) {
-    arr[i].color = "red";
+    arr[i].color = colorInfected;
   }
 };
 
@@ -232,6 +243,7 @@ const animationLoop = () => {
 };
 
 canvas.addEventListener("click", (event) => {
+  clicks++;
   const radius = 40;
   const mouseX = event.clientX - canvas.offsetLeft;
   const mouseY = event.clientY - canvas.offsetTop;
@@ -240,7 +252,7 @@ canvas.addEventListener("click", (event) => {
       Math.pow(mouseX - e.x, 2) + Math.pow(mouseY - e.y, 2)
     );
     if (distanse < radius) {
-      e.color = "green";
+      e.color = colorHealthy;
     }
   });
 });
@@ -248,7 +260,7 @@ canvas.addEventListener("click", (event) => {
 difficult.addEventListener(
   "change",
   (e) => {
-    diffInfo.innerHTML = `${difficult.value}% of people in quarantine!`;
+    diffInfo.innerHTML = `${difficult.value}`;
     globetrotters = (population * (100 - difficult.value)) / 100;
   },
   false
@@ -264,20 +276,28 @@ window.addEventListener(
   false
 );
 
+// START
 start.addEventListener("click", () => {
+  timer();
+  clicks = 0;
+  clearCanvas(canvasChart, ctxChart);
+  removeWindow(canvasChart);
   updateGameArea(allObj);
   cancelAnimationFrame(animationID);
   delAllObj(allObj);
+  delAllObj(allChart);
   addObj(globetrotters);
+  infected(allObj, globetrotters, 10);
   animationLoop();
+  addChart();
 });
 
+// AUDIO
 const audio = document.querySelector("#myAudio");
 const playAudio = () => audio.play();
 const pauseAudio = () => audio.pause();
 
 const togglePlay = () => {
-  console.log("foo");
   if (audio.paused) {
     music.innerHTML = '<i class="fas fa-volume-mute"></i>';
     audio.play();
@@ -328,6 +348,12 @@ const removeWindow = (window) => {
   wrapper.contains(window) ? window.remove() : null;
   // window.remove()
 };
+
+// const saveChart = (canvas) => {
+//   const dataURL = canvas.toDataURL("image/png").replace("image/png");
+//   const saveBtn = document.querySelector(".save-chart");
+//   saveBtn.href = dataURL;
+// };
 
 // ABOUT
 const aboutWindow = document.createElement("div");
@@ -389,6 +415,131 @@ help.addEventListener("click", () => {
   addHowPlayWindow();
 });
 
+// WIN - LOSE
+const endInfo = document.createElement("div");
+const endGameInfo = (score) => {
+  endInfo.classList.add("end-info");
+
+  endInfo.innerHTML =
+    score === "win"
+      ? `
+  <i class="fas fa-times" onclick="removeWindow(endInfo)"></i>
+  <h2>Gratulacje zwycięstwa!</h2>
+  <p>Jesteś super! Masz bystry umysł i szybkie palce. Szybko klikasz, albo wysłałeś większość bąbelków na kwarantannę, bo doskonale wiesz jakie to ważne i to nie tylko w grze.</p>
+
+  `
+      : `
+  <i class="fas fa-times" onclick="removeWindow(endInfo)"></i>
+  <h2>Tym razem się nie udało.</h2>
+  <p>Nie martw się, to tylko gra. Jeśli zostaniesz w domu, to możesz zagrac ponownie. Jeśli wyślesz więcej bąbelków na kwarantannę, to będzie łatwiej wygrać z wirusem.</p>
+  `;
+
+  endInfo.innerHTML += `
+  <p>Możesz zagrać ponownie, lub zrobić coś innego, na co zawsze brakowało Ci czasu. Tylko pamiętaj - <b>zostań w domu</b>! Dzięki temu możesz ocalić siebie, albo <b>kogoś bliskiego!</b></p>
+  <p class="important"><i class="fas fa-biohazard"></i> Nie narażaj i nie zarażaj!<i class="fas fa-biohazard"></i></p>
+  <p>Chociaż czujesz się dobrze, to możesz być nosicielem i zarażać innych. Nawet jeśli nie jesteś w grupie ryzyka i potencjalnie Twój organizm poradzi sibie z choroba, to pamiętaj, że Twoi najbliźśi mogą nie mieć tyle szcześcia.</p>
+  `;
+  updatePosition(endInfo, 20, 20);
+  wrapper.appendChild(endInfo);
+};
+
+// Chanvas Chart
+const canvasChart = document.createElement("canvas");
+canvasChart.setAttribute("class", "chart");
+const ctxChart = canvasChart.getContext("2d");
+canvasChart.height = 400;
+canvasChart.width = 800;
+
+const addCanvasChart = () => {
+  updatePosition(canvasChart, 25, 45);
+  wrapper.appendChild(canvasChart);
+};
+
+const drawChartFrame = (context) => {
+  context.strokeStyle = "black";
+  context.moveTo(20, 20);
+  context.lineTo(30, 30);
+  context.moveTo(20, 20);
+  context.lineTo(10, 30);
+  context.moveTo(20, 20);
+  context.lineTo(20, 380);
+  context.lineTo(780, 380);
+  context.lineTo(770, 370);
+  context.moveTo(780, 380);
+  context.lineTo(770, 390);
+  context.stroke();
+
+  context.font = "bold 12px sans-serif";
+  context.fillText("infekcje", 2, 14);
+
+  context.font = "bold 12px sans-serif";
+  context.fillText("czas", 735, 395);
+
+  context.beginPath();
+  context.moveTo(15, 190);
+  context.setLineDash([10, 10]);
+  context.lineTo(790, 190);
+  context.moveTo(15, 95);
+  context.lineTo(790, 95);
+  context.moveTo(15, 285);
+  context.lineTo(790, 285);
+  context.stroke();
+  context.closePath();
+
+  context.font = "bold 10px sans-serif";
+  context.fillText(Math.round((allObj.length * 3) / 4), 2, 98);
+  context.fillText(Math.round(allObj.length / 2), 2, 193);
+  context.fillText(Math.round(allObj.length / 4), 2, 288);
+
+  context.beginPath();
+  context.strokeStyle = colorHealthy;
+  context.moveTo(710, 136);
+  context.lineTo(730, 136);
+  context.stroke();
+  context.closePath();
+  context.font = "bold 12px sans-serif";
+  context.fillText("zdrowi", 735, 140);
+
+  context.beginPath();
+  context.strokeStyle = colorInfected;
+  context.moveTo(710, 236);
+  context.lineTo(730, 236);
+  context.stroke();
+  context.closePath();
+  context.font = "bold 12px sans-serif";
+  context.fillText("chorzy", 735, 240);
+};
+
+const drawChartData = (context, allChart) => {
+  const unitX = (canvasChart.width * 0.9) / allChart.length;
+  const unitY = (canvasChart.height * 0.9) / allObj.length;
+  const startInfX = 30;
+  const startInfY = 380 - unitY * allChart[0].infected;
+
+  context.beginPath();
+  context.strokeStyle = colorInfected;
+  context.setLineDash([]);
+  context.moveTo(startInfX, startInfY);
+  allChart.forEach((e) => {
+    context.lineTo(startInfX + e.time * unitX, 380 - unitY * e.infected);
+  });
+  context.stroke();
+  context.closePath();
+
+  const startHealX = 30;
+  const startHealY = 380 - unitY * allChart[0].healthy;
+
+  context.beginPath();
+  context.strokeStyle = colorHealthy;
+  context.setLineDash([]);
+  context.moveTo(startHealX, startHealY);
+  allChart.forEach((e) => {
+    context.lineTo(startHealX + e.time * unitX, 380 - unitY * e.healthy);
+  });
+  context.stroke();
+  context.closePath();
+};
+
 // INFO PANEL
 
 // TIME
@@ -410,3 +561,5 @@ const timer = () => {
     clickInfo.innerHTML = clicks;
   }, 1000);
 };
+
+// })();
