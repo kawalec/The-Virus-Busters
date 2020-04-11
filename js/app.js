@@ -282,32 +282,39 @@ const togglePlay = () => {
 
 music.addEventListener("click", togglePlay, false);
 
-const removeAbout = () => {
-  aboutWindow.remove();
+const removeWindow = (window) => {
+  wrapper.contains(window) ? window.remove() : null;
+  // window.remove()
 };
 
+// ABOUT
 const aboutWindow = document.createElement("div");
-aboutWindow.classList.add("about");
-aboutWindow.style.left = `${innerWidth / 2 - 350}px`;
-aboutWindow.style.top = `${innerHeight / 2 - 200}px`;
-aboutWindow.innerHTML = `
-<i class="fas fa-times" onclick="removeAbout()"></i>
+const addAboutWindow = () => {
+  aboutWindow.classList.add("about");
+  // aboutWindow.style.top = `${innerHeight / 2 - 200}px`;
+  // aboutWindow.style.left = `${innerWidth / 2 - 350}px`;
+  aboutWindow.innerHTML = `
+<i class="fas fa-times" onclick="removeWindow(aboutWindow)"></i>
 <p class="about__title">The Virus Busters</p>
 <div class="about__links">
 <p>Created by
 <a href="https://www.kawalec.eu" target="_blank">Paweł Kawalec</a>
 </p>
-<p> Background by 
+<p> Images from  
 <a href="https://www.freepik.com" target="_blank">Freepik</a>
 </p>
-<p> Music by 
+<p> Music from  
 <a href="https://www.bensound.com" target="_blank">Bensound</a>
 </p>
-<p> Icons by 
+<p> Icons from  
 <a href="https://fontawesome.com" target="_blank">Font Awesome</a>
 </p>
 </div>
+<p class="about__version">TheVirusBusters version 1.1.0</p>
 `;
-about.addEventListener("click", () => {
+  updatePosition(aboutWindow, 40, 40);
   wrapper.appendChild(aboutWindow);
+};
+about.addEventListener("click", () => {
+  addAboutWindow();
 });
