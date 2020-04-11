@@ -206,6 +206,13 @@ const addObj = (num) => {
   allObj[0].color = "red";
 };
 
+const infected = (arr, n, p) => {
+  const c = Math.floor((n * p) / 100) < 1 ? 1 : Math.floor((n * p) / 100);
+  for (let i = 0; i < c; i++) {
+    arr[i].color = "red";
+  }
+};
+
 const delAllObj = (arr) => arr.splice(0, arr.length);
 
 const drawAllObj = (allObj, context) => {
