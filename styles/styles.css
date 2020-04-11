@@ -1,6 +1,11 @@
 :root {
-  --primary-color: #fff;
-  --secondary-color: #0088cc;
+  --color-primary: #ffffff;
+  --color-secondary: #000000;
+  --color-navy: #123258;
+  --color-blue: #8ec3cb;
+  --color-red: #ff7a75;
+  --color-green: #82c8a4;
+  --color-yellow: #ebb143;
 }
 
 .wrapper {
@@ -20,10 +25,11 @@
 }
 
 .myCanvas {
-  border: 2px solid cadetblue;
+  border: 2px solid var(--color-navy);
   margin: 0 auto;
   padding: 0;
   display: block;
+  cursor: crosshair;
 }
 
 .menu {
@@ -39,13 +45,12 @@
   display: flex;
   flex-direction: column;
   font-size: 1.4em;
-  letter-spacing: 3px;
 }
 
 .diff-info {
   font-size: 1.4em;
   font-weight: 700;
-  color: red;
+  /* color: var(--color-navy); */
 }
 
 .btn {
@@ -58,35 +63,40 @@
   box-shadow: 0px 8px 10px 0px rgba(0, 0, 0, 0.3), inset 0px 4px 1px 1px white,
     inset 0px -3px 1px 1px rgba(204, 198, 197, 0.5);
   transition: all 0.1s linear;
+  color: var(--color-navy);
 }
 
 .btn:hover {
   cursor: pointer;
   background-image: linear-gradient(top, #fff, #f4f1ee);
-  color: #0088cc;
+  color: var(--color-red);
 }
 
 .about {
-  width: 350px;
-  height: 200px;
-  background: #fff;
+  width: 400px;
+  height: 250px;
+  background: var(--color-primary);
   display: flex;
   flex-direction: column;
-  border: 2px solid var(--secondary-color);
+  border: 2px solid var(--color-navy);
   position: absolute;
-  /* top: 0px;
-  left: 0px; */
 }
 
-.about i {
+.about i.fa-times,
+.play i.fa-times,
+.end-info i.fa-times {
   position: absolute;
   font-size: 2em;
   top: 5px;
   right: 10px;
+  transition: all 1s;
 }
 
-.about i:hover {
+.about i:hover,
+.play i:hover,
+.end-info i:hover {
   cursor: pointer;
+  transform: scale(1.2);
 }
 
 .about__title {
@@ -96,10 +106,136 @@
 }
 
 .about__links {
-  margin: 0 0 10px 10px;
+  margin: 0 0 0 20px;
 }
 
 .about__links p {
   margin: 10px 0;
   padding: 0;
+}
+
+.about__version {
+  font-size: 0.8em;
+  margin: 20px;
+}
+
+.play {
+  width: 720px;
+  height: 400px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--color-navy);
+  position: absolute;
+  /* top: 0px;
+  left: 0px; */
+}
+
+.play > div {
+  margin: 20px;
+}
+
+.chart {
+  background: var(--color-primary);
+  border: 2px solid var(--color-navy);
+  position: absolute;
+  top: 30px;
+  left: 265px;
+}
+
+.end-info {
+  width: 640px;
+  background: var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--color-navy);
+  padding: 15px;
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 0px;
+}
+
+.bubbles {
+  display: flex;
+}
+
+.bubble {
+  width: 41px;
+  height: 41px;
+  left: 150px;
+  cursor: crosshair;
+  position: relative;
+}
+
+.bubbleRed {
+  background: url(/img/bubbles.png) 45px -4px;
+  left: 250px;
+  animation: moveRedBall ease-in-out 5s 0.5s;
+}
+
+.bubbleRed:hover {
+  background: url(/img/bubbles.png) -4px -4px;
+}
+.bubbleBlue {
+  left: 500px;
+  background: url(/img/bubbles.png);
+  background-position-x: -4px;
+  background-position-y: -4px;
+  animation: changeColorBlueBall 1s steps(2);
+  animation-delay: 2.3s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes moveRedBall {
+  0% {
+    left: 250px;
+  }
+  50% {
+    left: 500px;
+  }
+  100% {
+    left: 250px;
+  }
+}
+
+@keyframes changeColorBlueBall {
+  0% {
+    background-position-x: -4px;
+  }
+  100% {
+    background-position-x: 95px;
+  }
+}
+
+.important {
+  font-size: 1.4em;
+  color: var(--color-red);
+  text-align: center;
+}
+
+.panel-info {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: 20px;
+  left: 200px;
+  border: 1px solid grey;
+  padding: 0 10px;
+}
+
+.panel-info__time {
+  /* width: 250px; */
+  text-align: center;
+  vertical-align: middle;
+}
+.panel-info__apm {
+  /* width: 250px; */
+  text-align: center;
+  vertical-align: middle;
+}
+.panel-info__click {
+  /* width: 250px; */
+  text-align: center;
+  vertical-align: middle;
 }
