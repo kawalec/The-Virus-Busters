@@ -353,3 +353,25 @@ const addHowPlayWindow = () => {
 help.addEventListener("click", () => {
   addHowPlayWindow();
 });
+
+// INFO PANEL
+
+// TIME
+
+const timer = () => {
+  let sec = 0;
+  setInterval(() => {
+    sec++;
+    let min =
+      Math.floor(sec / 60) < 10
+        ? `0${Math.floor(sec / 60)}`
+        : `${Math.floor(sec / 60)}`;
+    timeInfo.innerHTML =
+      sec >= 6000
+        ? `${"Time is over!"}`
+        : sec % 60 < 10
+        ? `${min}:0${sec % 60}`
+        : `${min}:${sec % 60}`;
+    clickInfo.innerHTML = clicks;
+  }, 1000);
+};

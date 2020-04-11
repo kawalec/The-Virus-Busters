@@ -17,15 +17,39 @@
     <div class="wrapper">
       <canvas class="myCanvas"></canvas>
       <div class="menu">
-        <button class="btn btn--about"><i class="fas fa-virus"></i></button>
+        <button title="About" class="btn btn--about">
+          <!-- <i class="fas fa-virus"></i> -->
+          <i class="fas fa-sync fa-spin"></i>
+        </button>
         <label class="diff-input">
-          Quarantine
+          Kwarantanna
           <input type="range" min="5" max="95" value="50" />
         </label>
-        <div class="diff-info">50% of peopple in quarantine!</div>
-        <button class="btn btn--help"><i class="fas fa-question"></i></button>
-        <button class="btn btn--music"><i class="fas fa-volume-up"></i></button>
-        <button class="btn btn--start"><i class="fas fa-power-off"></i></button>
+        <div class="diff-info"><span>50</span> % bąbelków na kwarantannie!</div>
+        <button title="Help" class="btn btn--help">
+          <i class="fas fa-question"></i>
+        </button>
+        <button title="Music" class="btn btn--music">
+          <i class="fas fa-volume-up"></i>
+        </button>
+        <button title="Play game" class="btn btn--start">
+          <i class="fas fa-power-off"></i>
+        </button>
+        <!-- <a class="save-chart" href="#"
+          ><i class="fas fa-save" onclick="saveChart(canvasChart)"></i
+        ></a> -->
+      </div>
+      <div class="panel-info">
+        <div>
+          <p>Czas gry:</p>
+          <p>APM:</p>
+          <p>Kliknięcia:</p>
+        </div>
+        <div>
+          <p class="panel-info__time">00:00</p>
+          <p class="panel-info__apm">0</p>
+          <p class="panel-info__click">0</p>
+        </div>
       </div>
       <audio style="display: none;" id="myAudio" controls="" loop="">
         <source src="music/bensound-ukulele.mp3" />
