@@ -203,7 +203,7 @@ const addObj = (num) => {
     );
     allObj.push(obj);
   }
-  allObj[0].color = "red";
+  // allObj[0].color = "red";
 };
 
 const infected = (arr, n, p) => {
