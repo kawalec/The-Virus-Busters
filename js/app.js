@@ -161,6 +161,15 @@ class Ball {
   // }
 }
 
+class Chart {
+  constructor(time, healthy, infected) {
+    this.time = time;
+    this.healthy = healthy;
+    this.infected = infected;
+  }
+  drawChart(context) {}
+}
+
 const intRandom = (min, max) =>
   Math.floor(Math.random() * (max - min + 1) + min);
 
