@@ -325,3 +325,31 @@ const addAboutWindow = () => {
 about.addEventListener("click", () => {
   addAboutWindow();
 });
+
+// HELP
+const howPlay = document.createElement("div");
+const addHowPlayWindow = () => {
+  howPlay.classList.add("play");
+  howPlay.innerHTML = `
+    <i class="fas fa-times" onclick="removeWindow(howPlay)"></i>
+    <div>
+    <p>Zapraszamy dzielnych pogromców wirusów do gry <b>The Virus Busters</b>.</p>
+    <p>Twoim celem w grze będzie wyleczenie wszystkich zainfekowanych wirusem bąbelków. Można to zrobić klikając w zarażony bąbelek.</p>
+    <div class="bubbles">
+    <div class="bubble bubbleRed"></div>
+    <div class="bubble bubbleBlue"></div>
+    </div>
+    <p>Suwak w menu, domyślmnie ustawiony na 50%, pozwoli Ci na decyzję, jaki procent populacji bąbelków zostanie wysłany na kwarantannę. <u>Sprawdz jaki to ma wpływ na grę!</u></p>
+    <p>Przycisk <i class="fas fa-volume-up"></i> w każdej chwili pozwoli Ci włączyć / wyłączyć muzykę w tle.</p>
+    <P>Korzystając z przycisku <i class="fas fa-power-off"></i> możesz uruchomić nową grę. Po jej uruchomieniu populacja bąbelków, których nie wysłałeś na kwarantannę, zacznie siać zarazę wśród pozostałych.</p>
+    <p>Po zakończeniu gry, podsumowanie Twoich osiągnięć zostanie zaprezentowane na wykresie.</p>
+    <p>W ramach <b>nagrody</b> niespodzianki, dostaniesz ważne informacje, które mogą być dla Ciebie bardzo cenne, dlatego przeczytaj uważnie wyskakujący po ukończeniu gry komunikat.</p>
+    </div>
+    `;
+  updatePosition(howPlay, 20, 20);
+  wrapper.appendChild(howPlay);
+};
+
+help.addEventListener("click", () => {
+  addHowPlayWindow();
+});
