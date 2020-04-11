@@ -183,6 +183,14 @@ const updateGameArea = (allObj) => {
   });
 };
 
+const updatePosition = (element, t, l) => {
+  const top = canvas.offsetTop;
+  const left = canvas.offsetLeft;
+
+  element.style.top = `${top + t}px`;
+  element.style.left = `${left + l}px`;
+};
+
 const addObj = (num) => {
   for (let i = 0; i < num; i++) {
     const obj = new Ball(
