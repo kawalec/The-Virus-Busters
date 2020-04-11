@@ -32,6 +32,24 @@ class Ball {
     context.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
     context.fill();
     context.closePath();
+    context.strokeStyle = "#fefefe";
+    context.moveTo(this.x, this.y);
+    context.beginPath();
+    context.arc(this.x, this.y, this.size / 2, 0, Math.PI, false);
+    context.stroke();
+    context.closePath();
+    // left eye
+    context.moveTo(this.x + 10, this.y - 10);
+    context.beginPath();
+    context.arc(this.x - 6, this.y - 8, this.size / 8, 0, Math.PI * 2, true);
+    context.stroke();
+    context.closePath();
+    // right eye
+    context.moveTo(this.x + 10, this.y - 10);
+    context.beginPath();
+    context.arc(this.x + 6, this.y - 8, this.size / 8, 0, Math.PI * 2, true);
+    context.stroke();
+    context.closePath();
   }
 
   moveBall(allObj) {
