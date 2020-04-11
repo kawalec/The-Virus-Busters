@@ -289,6 +289,41 @@ const togglePlay = () => {
 
 music.addEventListener("click", togglePlay, false);
 
+const countInfected = () => {
+  let count = 0;
+  allObj.forEach((e) => {
+    e.color === colorInfected ? count++ : null;
+  });
+  return count;
+};
+
+const endGame = (score) => {
+  endGameInfo(score);
+  addCanvasChart();
+  drawChartFrame(ctxChart);
+  drawChartData(ctxChart, allChart);
+};
+
+const addChart = () => {
+  const add = setInterval(() => {
+    const obj = new Chart(
+      allChart.length,
+      allObj.length - countInfected(),
+      countInfected()
+    );
+    allChart.push(obj);
+    if (allObj.length - countInfected() === 0) {
+      clearInterval(add);
+      endGame("lose");
+    }
+    if (countInfected() === 0) {
+      clearInterval(add);
+      endGame("win");
+    }
+  }, 1000);
+  add;
+};
+
 const removeWindow = (window) => {
   wrapper.contains(window) ? window.remove() : null;
   // window.remove()
