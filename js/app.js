@@ -11,7 +11,7 @@ let animationID;
 const population = 100;
 let globetrotters = 50;
 let clicks = 0;
-// let apm = 0;
+let apm = [];
 const colorHealthy = "#123258";
 const colorInfected = "red";
 const wrapper = document.querySelector(".wrapper");
@@ -167,9 +167,6 @@ class Ball {
       this.y += this.speedY;
     }
   }
-  // changeColor(color) {
-  //   this.color = color;
-  // }
 }
 
 class Chart {
@@ -184,6 +181,7 @@ class Chart {
 const intRandom = (min, max) =>
   Math.floor(Math.random() * (max - min + 1) + min);
 
+// UPDATE RESOLUTION
 const updateGameArea = (allObj) => {
   cw = canvas.width = innerWidth > 900 ? 900 : innerWidth * 0.95;
   ch = canvas.height = innerHeight > 450 ? 450 : innerHeight * 0.7;
@@ -214,7 +212,6 @@ const addObj = (num) => {
     );
     allObj.push(obj);
   }
-  // allObj[0].color = "red";
 };
 
 const infected = (arr, n, p) => {
@@ -244,6 +241,7 @@ const animationLoop = () => {
 
 canvas.addEventListener("click", (event) => {
   clicks++;
+  allObj.length == 0 ? null : (clickInfo.innerHTML = clicks);
   const radius = 40;
   const mouseX = event.clientX - canvas.offsetLeft;
   const mouseY = event.clientY - canvas.offsetTop;
@@ -278,8 +276,11 @@ window.addEventListener(
 
 // START
 start.addEventListener("click", () => {
+  clickInfo.innerHTML = clicks = 0;
+  timeInfo.innerHTML = "00:00";
+  delAllObj(apm);
+  clearInterval(goTime);
   timer();
-  clicks = 0;
   clearCanvas(canvasChart, ctxChart);
   removeWindow(canvasChart);
   updateGameArea(allObj);
@@ -317,7 +318,9 @@ const countInfected = () => {
   return count;
 };
 
+// END GAME
 const endGame = (score) => {
+  clearInterval(goTime);
   endGameInfo(score);
   addCanvasChart();
   drawChartFrame(ctxChart);
@@ -346,7 +349,6 @@ const addChart = () => {
 
 const removeWindow = (window) => {
   wrapper.contains(window) ? window.remove() : null;
-  // window.remove()
 };
 
 // const saveChart = (canvas) => {
@@ -359,8 +361,6 @@ const removeWindow = (window) => {
 const aboutWindow = document.createElement("div");
 const addAboutWindow = () => {
   aboutWindow.classList.add("about");
-  // aboutWindow.style.top = `${innerHeight / 2 - 200}px`;
-  // aboutWindow.style.left = `${innerWidth / 2 - 350}px`;
   aboutWindow.innerHTML = `
 <i class="fas fa-times" onclick="removeWindow(aboutWindow)"></i>
 <p class="about__title">The Virus Busters</p>
@@ -443,7 +443,7 @@ const endGameInfo = (score) => {
   wrapper.appendChild(endInfo);
 };
 
-// Chanvas Chart
+// CANVAS CHART
 const canvasChart = document.createElement("canvas");
 canvasChart.setAttribute("class", "chart");
 const ctxChart = canvasChart.getContext("2d");
@@ -541,12 +541,21 @@ const drawChartData = (context, allChart) => {
 };
 
 // INFO PANEL
+// let panelGo;
+// let sec = 0;
+// const infoPanel = () => {
+//   panelGo = setInterval(() => {
+//     timer();
+//   }, 1000);
+// };
 
-// TIME
-
+// TIMER
+let goTime;
 const timer = () => {
   let sec = 0;
-  setInterval(() => {
+  apm.push(0);
+  console.log(apm);
+  goTime = setInterval(() => {
     sec++;
     let min =
       Math.floor(sec / 60) < 10
@@ -558,8 +567,14 @@ const timer = () => {
         : sec % 60 < 10
         ? `${min}:0${sec % 60}`
         : `${min}:${sec % 60}`;
-    clickInfo.innerHTML = clicks;
+    apm.push(clicks - apm.reduce((a, c) => a + c));
+    console.log(apm, clicks);
   }, 1000);
 };
+
+// CLICKS COUNTER
+
+// APM
+const actionPerSecond = () => {};
 
 // })();
