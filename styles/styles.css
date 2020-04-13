@@ -94,7 +94,8 @@
 
 .about i:hover,
 .play i:hover,
-.end-info i:hover {
+.end-info i:hover,
+.save-chart:hover {
   cursor: pointer;
   transform: scale(1.2);
 }
@@ -127,8 +128,6 @@
   flex-direction: column;
   border: 2px solid var(--color-navy);
   position: absolute;
-  /* top: 0px;
-  left: 0px; */
 }
 
 .play > div {
@@ -238,4 +237,9 @@
   /* width: 250px; */
   text-align: center;
   vertical-align: middle;
+}
+
+.save-chart {
+  position: absolute;
+  transition: all 1s;
 }

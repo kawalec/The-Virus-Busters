@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-6BQXXEZB6D"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-6BQXXEZB6D");
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
@@ -17,7 +30,7 @@
     <div class="wrapper">
       <canvas class="myCanvas"></canvas>
       <div class="menu">
-        <button title="About" class="btn btn--about">
+        <button title="O grze" class="btn btn--about">
           <!-- <i class="fas fa-virus"></i> -->
           <i class="fas fa-sync fa-spin"></i>
         </button>
@@ -26,18 +39,15 @@
           <input type="range" min="5" max="95" value="50" />
         </label>
         <div class="diff-info"><span>50</span> % bąbelków na kwarantannie!</div>
-        <button title="Help" class="btn btn--help">
+        <button title="Pomoc" class="btn btn--help">
           <i class="fas fa-question"></i>
         </button>
-        <button title="Music" class="btn btn--music">
+        <button title="Muzyka" class="btn btn--music">
           <i class="fas fa-volume-up"></i>
         </button>
-        <button title="Play game" class="btn btn--start">
+        <button title="Uruchom grę" class="btn btn--start">
           <i class="fas fa-power-off"></i>
         </button>
-        <!-- <a class="save-chart" href="#"
-          ><i class="fas fa-save" onclick="saveChart(canvasChart)"></i
-        ></a> -->
       </div>
       <div class="panel-info">
         <div>
@@ -53,6 +63,7 @@
       </div>
       <audio style="display: none;" id="myAudio" controls="" loop="">
         <source src="music/bensound-ukulele.mp3" />
+        d
       </audio>
     </div>
     <script>

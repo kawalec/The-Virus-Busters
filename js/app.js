@@ -175,7 +175,7 @@ class Chart {
     this.healthy = healthy;
     this.infected = infected;
   }
-  drawChart(context) {}
+  // drawChart(context) {}
 }
 
 const intRandom = (min, max) =>
@@ -326,7 +326,6 @@ const endGame = (score) => {
   drawChartFrame(ctxChart);
   drawChartData(ctxChart, allChart);
 };
-
 const addChart = () => {
   const add = setInterval(() => {
     const obj = new Chart(
@@ -335,6 +334,7 @@ const addChart = () => {
       countInfected()
     );
     allChart.push(obj);
+    // console.log(allObj.length, countInfected(), add);
     if (allObj.length - countInfected() === 0) {
       clearInterval(add);
       endGame("lose");
@@ -344,6 +344,8 @@ const addChart = () => {
       endGame("win");
     }
   }, 1000);
+  // check to future!
+  // add !== 15 ? clearInterval(add) : null;
   add;
 };
 
@@ -351,11 +353,29 @@ const removeWindow = (window) => {
   wrapper.contains(window) ? window.remove() : null;
 };
 
-// const saveChart = (canvas) => {
-//   const dataURL = canvas.toDataURL("image/png").replace("image/png");
-//   const saveBtn = document.querySelector(".save-chart");
-//   saveBtn.href = dataURL;
-// };
+// SAVE CANVAS CHART
+
+const saveChartBtn = () => {
+  const content = document.createElement("a");
+  content.classList.add("save-chart");
+  content.style.top = canvasChart.offsetTop + 10 + "px";
+  content.style.left =
+    canvasChart.offsetLeft + canvasChart.offsetWidth - 25 + "px";
+  content.title = "Zapisz wykres";
+  content.download = "The Virus Busters.png";
+  content.innerHTML = `
+  <i class="fas fa-save" onclick="saveChart(canvasChart)"></i>
+  `;
+  wrapper.appendChild(content);
+};
+
+const saveChart = (canvas) => {
+  const saveBtn = document.querySelector(".save-chart");
+  const dataURL = canvas
+    .toDataURL("image/png")
+    .replace("image/png", "image/octet-stream");
+  saveBtn.href = dataURL;
+};
 
 // ABOUT
 const aboutWindow = document.createElement("div");
@@ -453,10 +473,17 @@ canvasChart.width = 800;
 const addCanvasChart = () => {
   updatePosition(canvasChart, 25, 45);
   wrapper.appendChild(canvasChart);
+  // ADD SAVE BUTTON
+  saveChartBtn();
 };
 
 const drawChartFrame = (context) => {
-  context.strokeStyle = "black";
+  // BCG
+  context.fillStyle = "#fff";
+  context.fillRect(0, 0, cw, ch);
+
+  // FRAME
+  context.strokeStyle = "#000";
   context.moveTo(20, 20);
   context.lineTo(30, 30);
   context.moveTo(20, 20);
@@ -469,10 +496,20 @@ const drawChartFrame = (context) => {
   context.lineTo(770, 390);
   context.stroke();
 
+  context.fillStyle = "#000";
   context.font = "bold 12px sans-serif";
+  context.textAlign = "end";
+  context.fillText(clicks, 790, 170);
+  context.fillText(timeInfo.innerHTML, 790, 130);
+  context.fillText("120", 790, 150);
+  context.textAlign = "start";
+  context.fillText("czas gry:", 700, 130);
+  context.fillText("kliknięcia:", 700, 170);
+  context.fillText("APM:", 700, 150);
+  context.fillText("zdrowi", 735, 220);
+  context.fillText("chorzy", 735, 240);
+  context.fillText("APS", 735, 260);
   context.fillText("infekcje", 2, 14);
-
-  context.font = "bold 12px sans-serif";
   context.fillText("czas", 735, 395);
 
   context.beginPath();
@@ -493,12 +530,10 @@ const drawChartFrame = (context) => {
 
   context.beginPath();
   context.strokeStyle = colorHealthy;
-  context.moveTo(710, 136);
-  context.lineTo(730, 136);
+  context.moveTo(710, 216);
+  context.lineTo(730, 216);
   context.stroke();
   context.closePath();
-  context.font = "bold 12px sans-serif";
-  context.fillText("zdrowi", 735, 140);
 
   context.beginPath();
   context.strokeStyle = colorInfected;
@@ -506,8 +541,13 @@ const drawChartFrame = (context) => {
   context.lineTo(730, 236);
   context.stroke();
   context.closePath();
-  context.font = "bold 12px sans-serif";
-  context.fillText("chorzy", 735, 240);
+
+  context.beginPath();
+  context.strokeStyle = "#000";
+  context.moveTo(710, 256);
+  context.lineTo(730, 256);
+  context.stroke();
+  context.closePath();
 };
 
 const drawChartData = (context, allChart) => {
@@ -540,21 +580,12 @@ const drawChartData = (context, allChart) => {
   context.closePath();
 };
 
-// INFO PANEL
-// let panelGo;
-// let sec = 0;
-// const infoPanel = () => {
-//   panelGo = setInterval(() => {
-//     timer();
-//   }, 1000);
-// };
-
 // TIMER
 let goTime;
 const timer = () => {
   let sec = 0;
   apm.push(0);
-  console.log(apm);
+  // console.log(apm);
   goTime = setInterval(() => {
     sec++;
     let min =
@@ -567,14 +598,10 @@ const timer = () => {
         : sec % 60 < 10
         ? `${min}:0${sec % 60}`
         : `${min}:${sec % 60}`;
+    // APM
     apm.push(clicks - apm.reduce((a, c) => a + c));
-    console.log(apm, clicks);
+    // console.log(apm, clicks);
   }, 1000);
 };
-
-// CLICKS COUNTER
-
-// APM
-const actionPerSecond = () => {};
 
 // })();
