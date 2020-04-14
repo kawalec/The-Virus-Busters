@@ -217,24 +217,19 @@
   display: flex;
   flex-direction: row;
   position: absolute;
-  top: 20px;
-  left: 200px;
-  border: 1px solid grey;
   padding: 0 10px;
+  user-select: none;
 }
 
 .panel-info__time {
-  /* width: 250px; */
   text-align: center;
   vertical-align: middle;
 }
 .panel-info__apm {
-  /* width: 250px; */
   text-align: center;
   vertical-align: middle;
 }
 .panel-info__click {
-  /* width: 250px; */
   text-align: center;
   vertical-align: middle;
 }

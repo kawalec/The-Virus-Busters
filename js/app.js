@@ -1,4 +1,3 @@
-// (function () {
 "use strict";
 const canvas = document.querySelector(".myCanvas");
 const ctx = canvas.getContext("2d");
@@ -12,16 +11,13 @@ const population = 100;
 let globetrotters = 50;
 let clicks = 0;
 let apm = [];
+let timeInfo, apmInfo;
 const colorHealthy = "#123258";
 const colorInfected = "red";
 const wrapper = document.querySelector(".wrapper");
 const menu = document.querySelector(".menu");
 const difficult = document.querySelector('input[type="range"]');
 const diffInfo = document.querySelector(".diff-info span");
-const panel = document.querySelector(".panel-info");
-const timeInfo = document.querySelector(".panel-info__time");
-const apmInfo = document.querySelector(".panel-info__apm");
-const clickInfo = document.querySelector(".panel-info__click");
 const about = document.querySelector(".btn--about");
 const help = document.querySelector(".btn--help");
 const music = document.querySelector(".btn--music");
@@ -178,10 +174,30 @@ class Chart {
   // drawChart(context) {}
 }
 
+// FUNCTIONS
+
+// RANDOM
 const intRandom = (min, max) =>
   Math.floor(Math.random() * (max - min + 1) + min);
 
-// UPDATE RESOLUTION
+// UPDATE ELEMENT POSITION
+const updatePosition = (element, t, l) => {
+  const top = canvas.offsetTop;
+  const left = canvas.offsetLeft;
+
+  element.style.top = `${top + t}px`;
+  element.style.left = `${left + l}px`;
+};
+
+// DELETE ARR
+const delAllObj = (arr) => arr.splice(0, arr.length);
+
+// REMOVE WINDOW
+const removeWindow = (window) => {
+  wrapper.contains(window) ? window.remove() : null;
+};
+
+// UPDATE CANVAS RESOLUTION
 const updateGameArea = (allObj) => {
   cw = canvas.width = innerWidth > 900 ? 900 : innerWidth * 0.95;
   ch = canvas.height = innerHeight > 450 ? 450 : innerHeight * 0.7;
@@ -192,14 +208,7 @@ const updateGameArea = (allObj) => {
   });
 };
 
-const updatePosition = (element, t, l) => {
-  const top = canvas.offsetTop;
-  const left = canvas.offsetLeft;
-
-  element.style.top = `${top + t}px`;
-  element.style.left = `${left + l}px`;
-};
-
+// ADD BUBBLES
 const addObj = (num) => {
   for (let i = 0; i < num; i++) {
     const obj = new Ball(
@@ -214,6 +223,7 @@ const addObj = (num) => {
   }
 };
 
+// INFECTED BUBBLES
 const infected = (arr, n, p) => {
   const c = Math.floor((n * p) / 100) < 1 ? 1 : Math.floor((n * p) / 100);
   for (let i = 0; i < c; i++) {
@@ -221,27 +231,34 @@ const infected = (arr, n, p) => {
   }
 };
 
-const delAllObj = (arr) => arr.splice(0, arr.length);
-
+// DRAW ON CANVAS
 const drawAllObj = (allObj, context) => {
   allObj.forEach((e) => {
+    context.fillStyle = "#000";
+    context.font = "normal 16px Arial";
+    context.textAlign = "end";
+    context.fillText(clicks, 890, 20);
+    context.textAlign = "start";
+    context.fillText(timeInfo, 10, 20);
     context.fillStyle = e.color;
     e.drawBall(context);
     e.moveBall(allObj);
   });
 };
 
+// CLEAR CANVAS
 const clearCanvas = (canvas, context) => context.clearRect(0, 0, cw, ch);
 
+// CANVAS ANIMATION
 const animationLoop = () => {
   animationID = requestAnimationFrame(animationLoop);
   clearCanvas(canvas, ctx);
   drawAllObj(allObj, ctx);
 };
 
+// CANVAS CLICKS
 canvas.addEventListener("click", (event) => {
   clicks++;
-  allObj.length == 0 ? null : (clickInfo.innerHTML = clicks);
   const radius = 40;
   const mouseX = event.clientX - canvas.offsetLeft;
   const mouseY = event.clientY - canvas.offsetTop;
@@ -255,6 +272,7 @@ canvas.addEventListener("click", (event) => {
   });
 });
 
+// QUARANTINE
 difficult.addEventListener(
   "change",
   (e) => {
@@ -266,6 +284,7 @@ difficult.addEventListener(
 
 updateGameArea(allObj);
 
+// RESIZE LISTENER
 window.addEventListener(
   "resize",
   () => {
@@ -276,13 +295,16 @@ window.addEventListener(
 
 // START
 start.addEventListener("click", () => {
-  clickInfo.innerHTML = clicks = 0;
-  timeInfo.innerHTML = "00:00";
+  clicks = 0;
+  timeInfo = "00:00";
   delAllObj(apm);
   clearInterval(goTime);
   timer();
   clearCanvas(canvasChart, ctxChart);
   removeWindow(canvasChart);
+  document.querySelector(".save-chart")
+    ? document.querySelector(".save-chart").remove()
+    : null;
   updateGameArea(allObj);
   cancelAnimationFrame(animationID);
   delAllObj(allObj);
@@ -307,9 +329,9 @@ const togglePlay = () => {
     audio.pause();
   }
 };
-
 music.addEventListener("click", togglePlay, false);
 
+// COUNT INFECTED  BUBBLES
 const countInfected = () => {
   let count = 0;
   allObj.forEach((e) => {
@@ -349,12 +371,7 @@ const addChart = () => {
   add;
 };
 
-const removeWindow = (window) => {
-  wrapper.contains(window) ? window.remove() : null;
-};
-
 // SAVE CANVAS CHART
-
 const saveChartBtn = () => {
   const content = document.createElement("a");
   content.classList.add("save-chart");
@@ -478,11 +495,11 @@ const addCanvasChart = () => {
 };
 
 const drawChartFrame = (context) => {
-  // BCG
+  // BCG CHART
   context.fillStyle = "#fff";
   context.fillRect(0, 0, cw, ch);
 
-  // FRAME
+  // FRAME CHART
   context.strokeStyle = "#000";
   context.moveTo(20, 20);
   context.lineTo(30, 30);
@@ -500,7 +517,7 @@ const drawChartFrame = (context) => {
   context.font = "bold 12px sans-serif";
   context.textAlign = "end";
   context.fillText(clicks, 790, 170);
-  context.fillText(timeInfo.innerHTML, 790, 130);
+  context.fillText(timeInfo, 790, 130);
   context.fillText("120", 790, 150);
   context.textAlign = "start";
   context.fillText("czas gry:", 700, 130);
@@ -550,6 +567,7 @@ const drawChartFrame = (context) => {
   context.closePath();
 };
 
+// DATA CHART
 const drawChartData = (context, allChart) => {
   const unitX = (canvasChart.width * 0.9) / allChart.length;
   const unitY = (canvasChart.height * 0.9) / allObj.length;
@@ -585,14 +603,15 @@ let goTime;
 const timer = () => {
   let sec = 0;
   apm.push(0);
-  // console.log(apm);
+  console.log(apm);
   goTime = setInterval(() => {
     sec++;
     let min =
       Math.floor(sec / 60) < 10
         ? `0${Math.floor(sec / 60)}`
         : `${Math.floor(sec / 60)}`;
-    timeInfo.innerHTML =
+    // timeInfo.innerHTML =
+    timeInfo =
       sec >= 6000
         ? `${"Time is over!"}`
         : sec % 60 < 10
@@ -600,8 +619,8 @@ const timer = () => {
         : `${min}:${sec % 60}`;
     // APM
     apm.push(clicks - apm.reduce((a, c) => a + c));
-    // console.log(apm, clicks);
+    console.log(apm, clicks);
   }, 1000);
 };
 
-// })();
+// updatePosition(panel, 0, 0);
