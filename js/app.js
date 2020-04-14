@@ -199,9 +199,18 @@ const removeWindow = (window) => {
 
 // UPDATE CANVAS RESOLUTION
 const updateGameArea = (allObj) => {
-  cw = canvas.width = innerWidth > 900 ? 900 : innerWidth * 0.95;
-  ch = canvas.height = innerHeight > 450 ? 450 : innerHeight * 0.7;
-  menu.style.width = `${cw - 65}px`;
+  cw = canvas.width = screen.availWidth > 900 ? 900 : screen.availWidth * 0.95;
+  // cw = canvas.width = innerWidth > 900 ? 900 : innerWidth * 0.95;
+  ch = canvas.height =
+    screen.availHeight > 450 ? 450 : screen.availHeight * 0.9;
+  // ch = canvas.height = innerHeight > 450 ? 450 : innerHeight * 0.7;
+  wrapper.style.width =
+    screen.availWidth > 900 ? 900 + "px" : screen.availWidth * 0.95 + "px";
+  wrapper.style.height =
+    screen.availHeight > 515 ? 515 + "px" : screen.availHeight * 0.8 + "px";
+  console.log(cw, ch);
+  console.log(screen.availWidth, screen.availHeight);
+  menu.style.width = screen.availWidth > 900 ? `${cw - 65}px` : cw + "px";
   ballSize = innerWidth > 900 ? 20 : 10;
   allObj.map((e) => {
     e.size = innerWidth > 900 ? 20 : 10;
