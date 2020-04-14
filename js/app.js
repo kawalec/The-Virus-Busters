@@ -612,7 +612,6 @@ let goTime;
 const timer = () => {
   let sec = 0;
   apm.push(0);
-  console.log(apm);
   goTime = setInterval(() => {
     sec++;
     let min =
@@ -627,6 +626,5 @@ const timer = () => {
         : `${min}:${sec % 60}`;
     // APM
     apm.push(clicks - apm.reduce((a, c) => a + c));
-    console.log(apm, clicks);
   }, 1000);
 };
