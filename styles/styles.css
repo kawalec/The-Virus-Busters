@@ -213,27 +213,6 @@
   text-align: center;
 }
 
-.panel-info {
-  display: flex;
-  flex-direction: row;
-  position: absolute;
-  padding: 0 10px;
-  user-select: none;
-}
-
-.panel-info__time {
-  text-align: center;
-  vertical-align: middle;
-}
-.panel-info__apm {
-  text-align: center;
-  vertical-align: middle;
-}
-.panel-info__click {
-  text-align: center;
-  vertical-align: middle;
-}
-
 .save-chart {
   position: absolute;
   transition: all 1s;

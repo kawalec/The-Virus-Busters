@@ -518,7 +518,7 @@ const drawChartFrame = (context) => {
   context.textAlign = "end";
   context.fillText(clicks, 790, 170);
   context.fillText(timeInfo, 790, 130);
-  context.fillText("120", 790, 150);
+  context.fillText(Math.trunc((60 * clicks) / (apm.length - 1)), 790, 150);
   context.textAlign = "start";
   context.fillText("czas gry:", 700, 130);
   context.fillText("kliknięcia:", 700, 170);
@@ -573,7 +573,7 @@ const drawChartData = (context, allChart) => {
   const unitY = (canvasChart.height * 0.9) / allObj.length;
   const startInfX = 30;
   const startInfY = 380 - unitY * allChart[0].infected;
-
+  // INFECTED PATCH
   context.beginPath();
   context.strokeStyle = colorInfected;
   context.setLineDash([]);
@@ -586,13 +586,22 @@ const drawChartData = (context, allChart) => {
 
   const startHealX = 30;
   const startHealY = 380 - unitY * allChart[0].healthy;
-
+  // HEALTHY PATCH
   context.beginPath();
   context.strokeStyle = colorHealthy;
   context.setLineDash([]);
   context.moveTo(startHealX, startHealY);
   allChart.forEach((e) => {
     context.lineTo(startHealX + e.time * unitX, 380 - unitY * e.healthy);
+  });
+  context.stroke();
+  context.closePath();
+  // APS PATH
+  context.beginPath();
+  context.strokeStyle = "#000";
+  context.moveTo(20, 380);
+  apm.forEach((e, i) => {
+    context.lineTo(20 + i * unitX, 380 - e * unitY);
   });
   context.stroke();
   context.closePath();
@@ -610,7 +619,6 @@ const timer = () => {
       Math.floor(sec / 60) < 10
         ? `0${Math.floor(sec / 60)}`
         : `${Math.floor(sec / 60)}`;
-    // timeInfo.innerHTML =
     timeInfo =
       sec >= 6000
         ? `${"Time is over!"}`
@@ -622,5 +630,3 @@ const timer = () => {
     console.log(apm, clicks);
   }, 1000);
 };
-
-// updatePosition(panel, 0, 0);
