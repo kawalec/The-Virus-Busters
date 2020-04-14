@@ -208,12 +208,10 @@ const updateGameArea = (allObj) => {
     screen.availWidth > 900 ? 900 + "px" : screen.availWidth * 0.95 + "px";
   wrapper.style.height =
     screen.availHeight > 515 ? 515 + "px" : screen.availHeight * 0.8 + "px";
-  console.log(cw, ch);
-  console.log(screen.availWidth, screen.availHeight);
   menu.style.width = screen.availWidth > 900 ? `${cw - 65}px` : cw + "px";
-  ballSize = innerWidth > 900 ? 20 : 10;
+  ballSize = innerWidth > 900 ? 20 : 15;
   allObj.map((e) => {
-    e.size = innerWidth > 900 ? 20 : 10;
+    e.size = innerWidth > 900 ? 20 : 15;
   });
 };
 
@@ -239,16 +237,15 @@ const infected = (arr, n, p) => {
     arr[i].color = colorInfected;
   }
 };
-
 // DRAW ON CANVAS
 const drawAllObj = (allObj, context) => {
   allObj.forEach((e) => {
     context.fillStyle = "#000";
     context.font = "normal 16px Arial";
-    context.textAlign = "end";
-    context.fillText(clicks, 890, 20);
-    context.textAlign = "start";
-    context.fillText(timeInfo, 10, 20);
+    // context.textAlign = "end";
+    // context.textAlign = "start";
+    context.fillText(clicks, 10, 20);
+    context.fillText(timeInfo, 10, 440);
     context.fillStyle = e.color;
     e.drawBall(context);
     e.moveBall(allObj);
@@ -442,14 +439,14 @@ const addHowPlayWindow = () => {
     <div>
     <p>Zapraszamy dzielnych pogromców wirusów do gry <b>The Virus Busters</b>.</p>
     <p>Twoim celem w grze będzie wyleczenie wszystkich zainfekowanych wirusem bąbelków. Można to zrobić klikając w zarażony bąbelek.</p>
-    <div class="bubbles">
+    <div class="bubbles play__desktop-info">
     <div class="bubble bubbleRed"></div>
     <div class="bubble bubbleBlue"></div>
     </div>
     <p>Suwak w menu, domyślmnie ustawiony na 50%, pozwoli Ci na decyzję, jaki procent populacji bąbelków zostanie wysłany na kwarantannę. <u>Sprawdz jaki to ma wpływ na grę!</u></p>
-    <p>Przycisk <i class="fas fa-volume-up"></i> w każdej chwili pozwoli Ci włączyć / wyłączyć muzykę w tle.</p>
-    <P>Korzystając z przycisku <i class="fas fa-power-off"></i> możesz uruchomić nową grę. Po jej uruchomieniu populacja bąbelków, których nie wysłałeś na kwarantannę, zacznie siać zarazę wśród pozostałych.</p>
-    <p>Po zakończeniu gry, podsumowanie Twoich osiągnięć zostanie zaprezentowane na wykresie.</p>
+    <p class="play__desktop-info">Przycisk <i class="fas fa-volume-up"></i> w każdej chwili pozwoli Ci włączyć / wyłączyć muzykę w tle.</p>
+    <P class="play__desktop-info">Korzystając z przycisku <i class="fas fa-power-off"></i> możesz uruchomić nową grę. Po jej uruchomieniu populacja bąbelków, których nie wysłałeś na kwarantannę, zacznie siać zarazę wśród pozostałych.</p>
+    <p class="play__desktop-info>Po zakończeniu gry, podsumowanie Twoich osiągnięć zostanie zaprezentowane na wykresie.</p>
     <p>W ramach <b>nagrody</b> niespodzianki, dostaniesz ważne informacje, które mogą być dla Ciebie bardzo cenne, dlatego przeczytaj uważnie wyskakujący po ukończeniu gry komunikat.</p>
     </div>
     `;
@@ -482,8 +479,8 @@ const endGameInfo = (score) => {
 
   endInfo.innerHTML += `
   <p>Możesz zagrać ponownie, lub zrobić coś innego, na co zawsze brakowało Ci czasu. Tylko pamiętaj - <b>zostań w domu</b>! Dzięki temu możesz ocalić siebie, albo <b>kogoś bliskiego!</b></p>
-  <p class="important"><i class="fas fa-biohazard"></i> Nie narażaj i nie zarażaj!<i class="fas fa-biohazard"></i></p>
-  <p>Chociaż czujesz się dobrze, to możesz być nosicielem i zarażać innych. Nawet jeśli nie jesteś w grupie ryzyka i potencjalnie Twój organizm poradzi sibie z choroba, to pamiętaj, że Twoi najbliźśi mogą nie mieć tyle szcześcia.</p>
+  <p class="important"><i class="fas fa-biohazard"></i> Nie narażaj i nie zarażaj! <i class="fas fa-biohazard"></i></p>
+  <p class="endInfo__desktop">Chociaż czujesz się dobrze, to możesz być nosicielem i zarażać innych. Nawet jeśli nie jesteś w grupie ryzyka i potencjalnie Twój organizm poradzi sibie z choroba, to pamiętaj, że Twoi najbliźśi mogą nie mieć tyle szcześcia.</p>
   `;
   updatePosition(endInfo, 20, 20);
   wrapper.appendChild(endInfo);

@@ -74,8 +74,8 @@
 }
 
 .about {
-  width: 400px;
-  height: 250px;
+  width: 300px;
+  height: 225px;
   background: var(--color-primary);
   display: flex;
   flex-direction: column;
@@ -104,7 +104,7 @@
 .about__title {
   font-size: 1.8em;
   font-weight: 700;
-  margin: 20px 0 20px 20px;
+  margin: 10px 0 10px 10px;
 }
 
 .about__links {
@@ -118,7 +118,7 @@
 
 .about__version {
   font-size: 0.8em;
-  margin: 20px;
+  margin: 20px 10px 10px 20px;
 }
 
 .play {
@@ -220,13 +220,33 @@
 }
 
 @media only screen and (max-width: 720px) {
-  .diff-info {
+  .diff-info,
+  .play__desktop-info,
+  .endInfo__desktop {
     display: none;
+  }
+  .play {
+    width: 293px;
+    height: 350px;
+  }
+
+  .end-info {
+    width: 345px;
   }
 }
 
 @media only screen and (max-width: 350px) {
   .btn--help {
     display: none;
+  }
+  .about {
+    width: 225px;
+  }
+  .about__title {
+    margin: 10px 0 10px 25px;
+  }
+  .end-info {
+    width: 265px;
+    height: 380px;
   }
 }
