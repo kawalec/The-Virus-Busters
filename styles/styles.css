@@ -10,7 +10,6 @@
 
 .wrapper {
   font-family: Arial, Helvetica, sans-serif;
-  margin: 0;
   padding: 0;
   width: 900px;
   height: 515px;
@@ -29,7 +28,6 @@
   border: 2px solid var(--color-navy);
   margin: 0 auto;
   padding: 0;
-  display: block;
   cursor: crosshair;
 }
 
@@ -39,37 +37,34 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  border-top: none;
 }
 
 .diff-input {
   display: flex;
   flex-direction: column;
   font-size: 1.4em;
+  /* color: var(--color-primary); */
 }
 
 .diff-info {
   font-size: 1.4em;
   font-weight: 700;
-  /* color: var(--color-navy); */
+  /* color: var(--color-primary); */
 }
 
 .btn {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  outline: none;
-  border: none;
-  background-image: linear-gradient(top, #f4f1ee, #fff);
+  cursor: pointer;
+  color: var(--color-navy);
   box-shadow: 0px 8px 10px 0px rgba(0, 0, 0, 0.3), inset 0px 4px 1px 1px white,
     inset 0px -3px 1px 1px rgba(204, 198, 197, 0.5);
-  transition: all 0.1s linear;
-  color: var(--color-navy);
+  border: 1px solid var(--color-blue);
+  outline: none;
 }
 
 .btn:hover {
-  cursor: pointer;
-  background-image: linear-gradient(top, #fff, #f4f1ee);
   color: var(--color-red);
 }
 
@@ -177,6 +172,7 @@
 .bubbleRed:hover {
   background: url(/img/bubbles.png) -4px -4px;
 }
+
 .bubbleBlue {
   left: 500px;
   background: url(/img/bubbles.png);
@@ -217,6 +213,8 @@
 .save-chart {
   position: absolute;
   transition: all 1s;
+  /* font-size: 1.4em; */
+  color: var(--color-navy);
 }
 
 @media only screen and (max-width: 720px) {
