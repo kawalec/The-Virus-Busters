@@ -60,7 +60,7 @@
   color: var(--color-navy);
   box-shadow: 0px 8px 10px 0px rgba(0, 0, 0, 0.3), inset 0px 4px 1px 1px white,
     inset 0px -3px 1px 1px rgba(204, 198, 197, 0.5);
-  border: 1px solid var(--color-blue);
+  border: none;
   outline: none;
 }
 
@@ -213,7 +213,6 @@
 .save-chart {
   position: absolute;
   transition: all 1s;
-  /* font-size: 1.4em; */
   color: var(--color-navy);
 }
 

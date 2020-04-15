@@ -354,6 +354,7 @@ const endGame = (score) => {
   drawChartFrame(ctxChart);
   drawChartData(ctxChart, allChart);
 };
+
 const addChart = () => {
   const add = setInterval(() => {
     const obj = new Chart(
@@ -372,8 +373,6 @@ const addChart = () => {
       endGame("win");
     }
   }, 1000);
-  // check to future!
-  // add !== 15 ? clearInterval(add) : null;
   add;
 };
 
@@ -506,6 +505,7 @@ const drawChartFrame = (context) => {
   context.fillRect(0, 0, cw, ch);
 
   // FRAME CHART
+  context.beginPath();
   context.strokeStyle = "#000";
   context.moveTo(20, 20);
   context.lineTo(30, 30);
@@ -518,13 +518,23 @@ const drawChartFrame = (context) => {
   context.moveTo(780, 380);
   context.lineTo(770, 390);
   context.stroke();
+  context.closePath();
 
-  context.fillStyle = "#000";
+  const waterMark = Math.trunc(
+    (clicks + 97) % Math.trunc((60 * clicks) / (apm.length - 1))
+  ).toString(16);
+  context.fillStyle = "#dedede";
+  context.fillText(waterMark, 780, 55);
+  context.shadowOffsetX = -5;
+  context.shadowOffsetY = 5;
+  context.shadowColor = "rgba(0,0,0,0.2)";
+  context.shadowBlur = 3;
   context.font = "bold 12px sans-serif";
   context.textAlign = "end";
+  context.fillStyle = "#000";
   context.fillText(clicks, 790, 170);
-  context.fillText(timeInfo, 790, 130);
   context.fillText(Math.trunc((60 * clicks) / (apm.length - 1)), 790, 150);
+  context.fillText(timeInfo, 790, 130);
   context.textAlign = "start";
   context.fillText("czas gry:", 700, 130);
   context.fillText("kliknięcia:", 700, 170);
@@ -577,6 +587,7 @@ const drawChartFrame = (context) => {
 const drawChartData = (context, allChart) => {
   const unitX = (canvasChart.width * 0.9) / allChart.length;
   const unitY = (canvasChart.height * 0.9) / allObj.length;
+
   const startInfX = 30;
   const startInfY = 380 - unitY * allChart[0].infected;
   // INFECTED PATCH
@@ -602,6 +613,7 @@ const drawChartData = (context, allChart) => {
   });
   context.stroke();
   context.closePath();
+
   // APS PATH
   context.beginPath();
   context.strokeStyle = "#000";
