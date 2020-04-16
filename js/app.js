@@ -442,7 +442,7 @@ const addHowPlayWindow = () => {
     <div class="bubble bubbleRed"></div>
     <div class="bubble bubbleBlue"></div>
     </div>
-    <p>Suwak w menu, domyślmnie ustawiony na 50%, pozwoli Ci na decyzję, jaki procent populacji bąbelków zostanie wysłany na kwarantannę. <u>Sprawdz jaki to ma wpływ na grę!</u></p>
+    <p>Suwak w menu, domyślnie ustawiony na 50%, pozwoli Ci na decyzję, jaki procent populacji bąbelków zostanie wysłany na kwarantannę. <u>Sprawdź jaki to ma wpływ na grę!</u></p>
     <p class="play__desktop-info">Przycisk <i class="fas fa-volume-up"></i> w każdej chwili pozwoli Ci włączyć / wyłączyć muzykę w tle.</p>
     <P class="play__desktop-info">Korzystając z przycisku <i class="fas fa-power-off"></i> możesz uruchomić nową grę. Po jej uruchomieniu populacja bąbelków, których nie wysłałeś na kwarantannę, zacznie siać zarazę wśród pozostałych.</p>
     <p class="play__desktop-info>Po zakończeniu gry, podsumowanie Twoich osiągnięć zostanie zaprezentowane na wykresie.</p>
@@ -473,13 +473,13 @@ const endGameInfo = (score) => {
       : `
   <i class="fas fa-times" onclick="removeWindow(endInfo)"></i>
   <h2>Tym razem się nie udało.</h2>
-  <p>Nie martw się, to tylko gra. Jeśli zostaniesz w domu, to możesz zagrac ponownie. Jeśli wyślesz więcej bąbelków na kwarantannę, to będzie łatwiej wygrać z wirusem.</p>
+  <p>Nie martw się, to tylko gra. Jeśli zostaniesz w domu, to możesz zagrać ponownie. Jeśli wyślesz więcej bąbelków na kwarantannę, to będzie łatwiej wygrać z wirusem.</p>
   `;
 
   endInfo.innerHTML += `
   <p>Możesz zagrać ponownie, lub zrobić coś innego, na co zawsze brakowało Ci czasu. Tylko pamiętaj - <b>zostań w domu</b>! Dzięki temu możesz ocalić siebie, albo <b>kogoś bliskiego!</b></p>
   <p class="important"><i class="fas fa-biohazard"></i> Nie narażaj i nie zarażaj! <i class="fas fa-biohazard"></i></p>
-  <p class="endInfo__desktop">Chociaż czujesz się dobrze, to możesz być nosicielem i zarażać innych. Nawet jeśli nie jesteś w grupie ryzyka i potencjalnie Twój organizm poradzi sibie z choroba, to pamiętaj, że Twoi najbliźśi mogą nie mieć tyle szcześcia.</p>
+  <p class="endInfo__desktop">Chociaż czujesz się dobrze, to możesz być nosicielem i zarażać innych. Nawet, jeśli nie jesteś w grupie ryzyka i potencjalnie Twój organizm poradzi sobie z choroba, to pamiętaj, że Twoi najbliżsi mogą nie mieć tyle szczęścia.</p>
   `;
   updatePosition(endInfo, 20, 20);
   wrapper.appendChild(endInfo);
@@ -520,11 +520,11 @@ const drawChartFrame = (context) => {
   context.stroke();
   context.closePath();
 
-  const waterMark = Math.trunc(
-    (clicks + 97) % Math.trunc((60 * clicks) / (apm.length - 1))
-  ).toString(16);
-  context.fillStyle = "#dedede";
-  context.fillText(waterMark, 780, 55);
+  // const waterMark = Math.trunc(
+  //   (clicks + 97) % Math.trunc((60 * clicks) / (apm.length - 1))
+  // ).toString(16);
+  // context.fillStyle = "#dedede";
+  // context.fillText(waterMark, 780, 55);
   context.shadowOffsetX = -5;
   context.shadowOffsetY = 5;
   context.shadowColor = "rgba(0,0,0,0.2)";
